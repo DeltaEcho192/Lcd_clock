@@ -1,0 +1,65 @@
+#include <Wire.h>
+#include <LCD.h>
+#include <LiquidCrystal_I2C.h>
+LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE); // Addr, En, Rw, Rs, d4, d5, d6, d7, backlighpin, polarity
+ 
+  
+  int timehour = 12;
+  int timemin = 28;
+  int timesec = 30;
+
+void setup() {
+  Serial.begin(9600);
+  lcd.begin(16,4);
+  lcd.backlight();
+  lcd.setCursor(0, 0);
+  lcd.print("Time In Hour/Min/Sec");
+  lcd.setCursor(4, 3);
+  lcd.print("By DeltaEcho ");
+}
+
+void loop() {
+
+
+
+
+if (timehour == 24)
+{
+  timehour == 0;
+  }
+if (timemin == 60)
+{
+  timemin=0;
+  timehour=timehour=1;
+}
+  if (timesec == 60)
+  {
+    timesec=0;
+    wipeLines();
+    timemin= timemin + 1;
+   
+   }
+  
+    delay(990);
+    timesec = timesec + 1;
+    lcd.setCursor(9, 2);
+    lcd.print(timehour);
+    lcd.setCursor(13, 2);
+    lcd.print(timemin);
+    lcd.setCursor(16, 2);
+    lcd.print(timesec);
+    
+    
+    
+
+}
+
+void wipeLines() {
+for (int y = 2; y < 3; y++) {
+for (int x = 15; x < 20; x++) {
+lcd.setCursor (x,y);
+lcd.print(" ");
+
+} 
+}
+}
